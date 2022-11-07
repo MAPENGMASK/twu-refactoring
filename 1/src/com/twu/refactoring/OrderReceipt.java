@@ -1,11 +1,12 @@
 package com.twu.refactoring;
 
+import java.util.List;
+
 /**
  * OrderReceipt prints the details of order including customer name, address, description, quantity,
  * price and amount. It also calculates the sales tax @ 10% and prints as part
  * of order. It computes the total order amount (amount of individual lineItems +
  * total sales tax) and prints it.
- *
  */
 public class OrderReceipt {
 
@@ -22,30 +23,37 @@ public class OrderReceipt {
         output.append(order.getCustomerName());
         output.append(order.getCustomerAddress());
 
-        // prints lineItems
-        double totalSalesTax = 0d;
-        double totalAmount = 0d;
         for (LineItem lineItem : order.getLineItems()) {
-            output.append(lineItem.getDescription());
-            output.append('\t');
-            output.append(lineItem.getPrice());
-            output.append('\t');
-            output.append(lineItem.getQuantity());
-            output.append('\t');
-            output.append(lineItem.totalAmount());
-            output.append('\n');
-
-            // calculate sales tax @ rate of 10%
-            double salesTax = lineItem.totalAmount() * .10;
-            totalSalesTax += salesTax;
-
-            // calculate total amount of lineItem = price * quantity + 10 % sales tax
-            totalAmount += lineItem.totalAmount() + salesTax;
+            output.append(lineItem.getDescription()).append('\t');
+            output.append(lineItem.getPrice()).append('\t');
+            output.append(lineItem.getQuantity()).append('\t');
+            output.append(lineItem.totalAmount()).append('\n');
         }
 
-        output.append("Sales Tax").append('\t').append(totalSalesTax);
-
-        output.append("Total Amount").append('\t').append(totalAmount);
+        output.append("Sales Tax").append('\t').append(calculateTotalSalesTax(order.getLineItems()));
+        output.append("Total Amount").append('\t').append(calculateTotalAmount(order.getLineItems()));
         return output.toString();
+    }
+
+    private double calculateTotalSalesTax(List<LineItem> lineItems) {
+        double totalSalesTax = 0d;
+        for (LineItem lineItem : lineItems) {
+            double salesTax = calculateSalesTaxByTenPercent(lineItem);
+            totalSalesTax += salesTax;
+        }
+        return totalSalesTax;
+    }
+
+    private double calculateTotalAmount(List<LineItem> lineItems) {
+        double totalAmount = 0d;
+        for (LineItem lineItem : lineItems) {
+            double salesTax = calculateSalesTaxByTenPercent(lineItem);
+            totalAmount += lineItem.totalAmount() + salesTax;
+        }
+        return totalAmount;
+    }
+
+    private double calculateSalesTaxByTenPercent(LineItem lineItem) {
+        return lineItem.totalAmount() * .10;
     }
 }
