@@ -25,7 +25,7 @@ public class LineItem {
         return quantity;
     }
 
-    public double totalAmount() {
+    public double getLineItemTotalAmount() {
         return price * quantity;
     }
 }

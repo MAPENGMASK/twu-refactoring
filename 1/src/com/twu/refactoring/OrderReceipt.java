@@ -27,15 +27,15 @@ public class OrderReceipt {
             output.append(lineItem.getDescription()).append('\t');
             output.append(lineItem.getPrice()).append('\t');
             output.append(lineItem.getQuantity()).append('\t');
-            output.append(lineItem.totalAmount()).append('\n');
+            output.append(lineItem.getLineItemTotalAmount()).append('\n');
         }
 
-        output.append("Sales Tax").append('\t').append(calculateTotalSalesTax(order.getLineItems()));
-        output.append("Total Amount").append('\t').append(calculateTotalAmount(order.getLineItems()));
+        output.append("Total Sales Tax").append('\t').append(calculateOrderTotalSalesTax(order.getLineItems()));
+        output.append("Total Amount").append('\t').append(calculateOrderTotalAmount(order.getLineItems()));
         return output.toString();
     }
 
-    private double calculateTotalSalesTax(List<LineItem> lineItems) {
+    private double calculateOrderTotalSalesTax(List<LineItem> lineItems) {
         double totalSalesTax = 0d;
         for (LineItem lineItem : lineItems) {
             double salesTax = calculateSalesTaxByTenPercent(lineItem);
@@ -44,16 +44,16 @@ public class OrderReceipt {
         return totalSalesTax;
     }
 
-    private double calculateTotalAmount(List<LineItem> lineItems) {
-        double totalAmount = 0d;
+    private double calculateOrderTotalAmount(List<LineItem> lineItems) {
+        double orderTotalAmount = 0d;
         for (LineItem lineItem : lineItems) {
-            double salesTax = calculateSalesTaxByTenPercent(lineItem);
-            totalAmount += lineItem.totalAmount() + salesTax;
+            double salesTaxByTenPercent = calculateSalesTaxByTenPercent(lineItem);
+            orderTotalAmount += lineItem.getLineItemTotalAmount() + salesTaxByTenPercent;
         }
-        return totalAmount;
+        return orderTotalAmount;
     }
 
     private double calculateSalesTaxByTenPercent(LineItem lineItem) {
-        return lineItem.totalAmount() * .10;
+        return lineItem.getLineItemTotalAmount() * .10;
     }
 }
