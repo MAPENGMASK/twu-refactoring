@@ -8,7 +8,8 @@ package com.twu.refactoring;
  *
  */
 public class OrderReceipt {
-    private Order order;
+
+    private final Order order;
 
     public OrderReceipt(Order order) {
         this.order = order;
