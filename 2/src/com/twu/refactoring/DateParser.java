@@ -1,13 +1,10 @@
 package com.twu.refactoring;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.TimeZone;
+import java.util.*;
 
 public class DateParser {
     private final String dateAndTimeString;
-    private static final HashMap<String, TimeZone> KNOWN_TIME_ZONES = new HashMap<String, TimeZone>();
+    private static final Map<String, TimeZone> KNOWN_TIME_ZONES = new HashMap<>();
 
     static {
         KNOWN_TIME_ZONES.put("UTC", TimeZone.getTimeZone("UTC"));
@@ -91,7 +88,7 @@ public class DateParser {
         }
 
         Calendar calendar = Calendar.getInstance();
-        calendar.setTimeZone(TimeZone.getTimeZone("UTC"));
+        calendar.setTimeZone(KNOWN_TIME_ZONES.get("UTC"));
         calendar.set(year, month - 1, date, hour, minute, 0);
         calendar.set(Calendar.MILLISECOND, 0);
         return calendar.getTime();
