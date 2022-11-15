@@ -1,15 +1,20 @@
 package com.twu.refactoring;
 
+import com.twu.refactoring.enums.StrategyType;
+import com.twu.refactoring.factory.StrategyFactory;
 import com.twu.refactoring.strategy.*;
 
 import java.util.*;
 
 public class DateParser {
     private final String dateTimeString;
-    private static final Map<String, TimeZone> KNOWN_TIME_ZONES = new HashMap<>();
 
     static {
-        KNOWN_TIME_ZONES.put("UTC", TimeZone.getTimeZone("UTC"));
+        StrategyFactory.registerStrategy(StrategyType.LESS_THAN_FIVE, new LessThanFiveStrategy());
+        StrategyFactory.registerStrategy(StrategyType.LESS_THAN_EIGHT, new LessThanEightStrategy());
+        StrategyFactory.registerStrategy(StrategyType.LESS_THAN_ELEVEN, new LessThanElevenStrategy());
+        StrategyFactory.registerStrategy(StrategyType.LESS_THAN_FOUR_TEEN, new LessThanFourTeenStrategy());
+        StrategyFactory.registerStrategy(StrategyType.GREATER_THAN_FOUR_TEEN, new GreaterThanFourTeenStrategy());
     }
 
     /**
@@ -26,25 +31,6 @@ public class DateParser {
     }
 
     public Date parse() {
-
-        Context context;
-
-        int length = dateTimeString.length();
-        if (length <= 4) {
-            context = new Context(new LessThanFiveStrategy());
-            return context.invokeStrategy(dateTimeString);
-        } else if (length <= 7) {
-            context = new Context(new LessThanEightStrategy());
-            return context.invokeStrategy(dateTimeString);
-        } else if (length <= 10) {
-            context = new Context(new LessThanElevenStrategy());
-            return context.invokeStrategy(dateTimeString);
-        } else if (length <= 13) {
-            context = new Context(new LessThanFourTeenStrategy());
-            return context.invokeStrategy(dateTimeString);
-        } else {
-            context = new Context(new GreaterThanFourTeenStrategy());
-            return context.invokeStrategy(dateTimeString);
-        }
+        return StrategyFactory.getDate(dateTimeString);
     }
 }
