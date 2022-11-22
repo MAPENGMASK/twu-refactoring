@@ -1,14 +1,14 @@
 package com.twu.refactoring.state;
 
 public class Direction {
-    private final char direction;
+    private final char orientation;
 
-    public Direction(char direction) {
-        this.direction = direction;
+    public Direction(char orientation) {
+        this.orientation = orientation;
     }
 
     public Direction turnRight() {
-        switch (direction) {
+        switch (orientation) {
             case 'N':
                 return new Direction('E');
             case 'S':
@@ -23,7 +23,7 @@ public class Direction {
     }
 
     public Direction turnLeft() {
-        switch (direction) {
+        switch (orientation) {
             case 'N':
                 return new Direction('W');
             case 'S':
@@ -44,18 +44,18 @@ public class Direction {
 
         Direction direction1 = (Direction) o;
 
-        if (direction != direction1.direction) return false;
+        if (orientation != direction1.orientation) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return (int) direction;
+        return (int) orientation;
     }
 
     @Override
     public String toString() {
-        return "Direction{direction=" + direction + '}';
+        return "Direction{direction=" + orientation + '}';
     }
 }
