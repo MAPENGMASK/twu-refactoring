@@ -8,33 +8,25 @@ public class Direction {
     }
 
     public Direction turnRight() {
-        switch (orientation) {
-            case 'N':
-                return new Direction('E');
-            case 'S':
-                return new Direction('W');
-            case 'E':
-                return new Direction('N');
-            case 'W':
-                return new Direction('S');
-            default:
-                throw new IllegalArgumentException();
-        }
+        OrientationEnum sourceOrientationEnum = OrientationEnum.getByOrientation(orientation);
+        OrientationEnum targetOrientationEnum = switch (sourceOrientationEnum) {
+            case NORTH -> OrientationEnum.EAST;
+            case SOUTH -> OrientationEnum.WEST;
+            case EAST -> OrientationEnum.NORTH;
+            case WEST -> OrientationEnum.SOUTH;
+        };
+        return new Direction(targetOrientationEnum.getOrientation());
     }
 
     public Direction turnLeft() {
-        switch (orientation) {
-            case 'N':
-                return new Direction('W');
-            case 'S':
-                return new Direction('E');
-            case 'E':
-                return new Direction('N');
-            case 'W':
-                return new Direction('S');
-            default:
-                throw new IllegalArgumentException();
-        }
+        OrientationEnum orientationEnum = OrientationEnum.getByOrientation(orientation);
+        OrientationEnum targetOrientationEnum = switch (orientationEnum) {
+            case NORTH -> OrientationEnum.WEST;
+            case SOUTH -> OrientationEnum.EAST;
+            case EAST -> OrientationEnum.NORTH;
+            case WEST -> OrientationEnum.SOUTH;
+        };
+        return new Direction(targetOrientationEnum.getOrientation());
     }
 
     public char getOrientation() {
