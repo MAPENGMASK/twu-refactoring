@@ -37,25 +37,34 @@ public class Direction {
         }
     }
 
+    public char getOrientation() {
+        return orientation;
+    }
+
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public boolean equals(Object obj) {
+        if (obj == null || this.getClass() != obj.getClass()) {
+            return false;
+        }
 
-        Direction direction1 = (Direction) o;
+        if (this == obj) {
+            return true;
+        }
 
-        if (orientation != direction1.orientation) return false;
+        Direction temp = (Direction) obj;
 
-        return true;
+        return this.orientation == temp.getOrientation();
     }
 
     @Override
     public int hashCode() {
-        return (int) orientation;
+        return orientation;
     }
 
     @Override
     public String toString() {
-        return "Direction{direction=" + orientation + '}';
+        return "Direction{" +
+                "orientation=" + orientation +
+                '}';
     }
 }
