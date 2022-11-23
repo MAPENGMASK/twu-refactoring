@@ -2,7 +2,6 @@ package com.twu.refactoring.state;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class Direction {
 
@@ -27,26 +26,52 @@ public class Direction {
         this.orientation = orientation;
     }
 
+    public char getOrientation() {
+        return orientation;
+    }
+
     public Direction turnRight() {
         Character nextOrientation = dictionaryQuery(turnRightMap);
-        return new Direction(nextOrientation);
+        return Direction.builder().orientation(nextOrientation).build();
     }
 
     public Direction turnLeft() {
         Character nextOrientation = dictionaryQuery(turnLeftMap);
-        return new Direction(nextOrientation);
+        return Direction.builder().orientation(nextOrientation).build();
     }
 
     private Character dictionaryQuery(Map<Character, Character> dic) {
-        Character nextOrientation = dic.get(this.orientation);
-        if (Objects.isNull(nextOrientation)) {
-            throw new IllegalArgumentException();
-        }
-        return nextOrientation;
+        return dic.get(this.orientation);
     }
 
-    public char getOrientation() {
-        return orientation;
+    public static DirectionBuilder builder() {
+        return new DirectionBuilder();
+    }
+
+    public static class DirectionBuilder {
+        private Character orientation;
+
+        DirectionBuilder() {
+        }
+
+        public DirectionBuilder orientation(Character orientation) {
+            if (orientation == null) {
+                throw new IllegalArgumentException();
+            }
+            this.orientation = orientation;
+            return this;
+        }
+
+        public Direction build() {
+            return new Direction(this.orientation);
+        }
+
+        @Override
+        public String toString() {
+            return "DirectionBuilder{" +
+                    "orientation=" + orientation +
+                    '}';
+        }
     }
 
     @Override
