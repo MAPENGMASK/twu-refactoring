@@ -1,61 +1,78 @@
 package com.twu.refactoring.state;
 
-public class Direction {
-    private final char direction;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
-    public Direction(char direction) {
-        this.direction = direction;
+public class Direction {
+
+    private static final Map<Character, Character> turnLeftMap = new HashMap<>();
+    private static final Map<Character, Character> turnRightMap = new HashMap<>();
+
+    private final char orientation;
+
+    static {
+        turnRightMap.put('N', 'E');
+        turnRightMap.put('S', 'W');
+        turnRightMap.put('E', 'N');
+        turnRightMap.put('W', 'S');
+
+        turnLeftMap.put('N', 'W');
+        turnLeftMap.put('S', 'E');
+        turnLeftMap.put('E', 'N');
+        turnLeftMap.put('W', 'S');
+    }
+
+    public Direction(char orientation) {
+        this.orientation = orientation;
     }
 
     public Direction turnRight() {
-        switch (direction) {
-            case 'N':
-                return new Direction('E');
-            case 'S':
-                return new Direction('W');
-            case 'E':
-                return new Direction('N');
-            case 'W':
-                return new Direction('S');
-            default:
-                throw new IllegalArgumentException();
-        }
+        Character nextOrientation = dictionaryQuery(turnRightMap);
+        return new Direction(nextOrientation);
     }
 
     public Direction turnLeft() {
-        switch (direction) {
-            case 'N':
-                return new Direction('W');
-            case 'S':
-                return new Direction('E');
-            case 'E':
-                return new Direction('N');
-            case 'W':
-                return new Direction('S');
-            default:
-                throw new IllegalArgumentException();
+        Character nextOrientation = dictionaryQuery(turnLeftMap);
+        return new Direction(nextOrientation);
+    }
+
+    private Character dictionaryQuery(Map<Character, Character> dic) {
+        Character nextOrientation = dic.get(this.orientation);
+        if (Objects.isNull(nextOrientation)) {
+            throw new IllegalArgumentException();
         }
+        return nextOrientation;
+    }
+
+    public char getOrientation() {
+        return orientation;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public boolean equals(Object obj) {
+        if (obj == null || this.getClass() != obj.getClass()) {
+            return false;
+        }
 
-        Direction direction1 = (Direction) o;
+        if (this == obj) {
+            return true;
+        }
 
-        if (direction != direction1.direction) return false;
+        Direction temp = (Direction) obj;
 
-        return true;
+        return this.orientation == temp.getOrientation();
     }
 
     @Override
     public int hashCode() {
-        return (int) direction;
+        return orientation;
     }
 
     @Override
     public String toString() {
-        return "Direction{direction=" + direction + '}';
+        return "Direction{" +
+                "orientation=" + orientation +
+                '}';
     }
 }
