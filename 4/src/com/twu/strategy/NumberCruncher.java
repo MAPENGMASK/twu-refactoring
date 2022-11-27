@@ -1,6 +1,9 @@
 package com.twu.strategy;
 
+import java.util.Arrays;
+
 public class NumberCruncher {
+
     private final int[] numbers;
 
     public NumberCruncher(int... numbers) {
@@ -8,11 +11,7 @@ public class NumberCruncher {
     }
 
     public int countEven() {
-        int count = 0;
-        for (int number : numbers) {
-            if (isEven(number)) count++;
-        }
-        return count;
+        return (int) Arrays.stream(numbers).filter(NumberCruncher::isEven).count();
     }
 
     private static boolean isEven(int number) {
@@ -20,11 +19,7 @@ public class NumberCruncher {
     }
 
     public int countOdd() {
-        int count = 0;
-        for (int number : numbers) {
-            if (isOdd(number)) count++;
-        }
-        return count;
+        return (int) Arrays.stream(numbers).filter(NumberCruncher::isOdd).count();
     }
 
     private static boolean isOdd(int number) {
@@ -32,11 +27,7 @@ public class NumberCruncher {
     }
 
     public int countPositive() {
-        int count = 0;
-        for (int number : numbers) {
-            if (isPositive(number)) count++;
-        }
-        return count;
+        return (int) Arrays.stream(numbers).filter(NumberCruncher::isPositive).count();
     }
 
     private static boolean isPositive(int number) {
@@ -44,11 +35,7 @@ public class NumberCruncher {
     }
 
     public int countNegative() {
-        int count = 0;
-        for (int number : numbers) {
-            if (isNegative(number)) count++;
-        }
-        return count;
+        return (int) Arrays.stream(numbers).filter(NumberCruncher::isNegative).count();
     }
 
     private static boolean isNegative(int number) {
