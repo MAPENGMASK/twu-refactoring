@@ -10,32 +10,48 @@ public class NumberCruncher {
     public int countEven() {
         int count = 0;
         for (int number : numbers) {
-            if (number % 2 == 0) count++;
+            if (isEven(number)) count++;
         }
         return count;
+    }
+
+    private static boolean isEven(int number) {
+        return number % 2 == 0;
     }
 
     public int countOdd() {
         int count = 0;
         for (int number : numbers) {
-            if (number % 2 == 1) count++;
+            if (isOdd(number)) count++;
         }
         return count;
+    }
+
+    private static boolean isOdd(int number) {
+        return number % 2 == 1;
     }
 
     public int countPositive() {
         int count = 0;
         for (int number : numbers) {
-            if (number >= 0) count++;
+            if (isPositive(number)) count++;
         }
         return count;
+    }
+
+    private static boolean isPositive(int number) {
+        return number >= 0;
     }
 
     public int countNegative() {
         int count = 0;
         for (int number : numbers) {
-            if (number < 0) count++;
+            if (isNegative(number)) count++;
         }
         return count;
+    }
+
+    private static boolean isNegative(int number) {
+        return number < 0;
     }
 }
