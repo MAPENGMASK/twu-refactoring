@@ -3,6 +3,7 @@ package com.twu.strategy;
 import com.twu.strategy.util.NumberUtils;
 
 import java.util.Arrays;
+import java.util.function.IntPredicate;
 
 public class NumberCruncher {
 
@@ -13,19 +14,22 @@ public class NumberCruncher {
     }
 
     public int countEven() {
-        return (int) Arrays.stream(numbers).filter(NumberUtils::isEven).count();
+        return countBy(NumberUtils::isEven);
     }
 
     public int countOdd() {
-        return (int) Arrays.stream(numbers).filter(NumberUtils::isOdd).count();
+        return countBy(NumberUtils::isOdd);
     }
 
     public int countPositive() {
-        return (int) Arrays.stream(numbers).filter(NumberUtils::isPositive).count();
+        return countBy(NumberUtils::isPositive);
     }
 
     public int countNegative() {
-        return (int) Arrays.stream(numbers).filter(NumberUtils::isNegative).count();
+        return countBy(NumberUtils::isNegative);
     }
 
+    public int countBy(IntPredicate judgeCondition) {
+        return (int) Arrays.stream(numbers).filter(judgeCondition).count();
+    }
 }
