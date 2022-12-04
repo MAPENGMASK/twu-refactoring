@@ -1,8 +1,8 @@
 package com.twu.featureenvy;
 
 public class Receipt {
+    public static final double SALES_TAX = 1.1;
     private final Taxi taxi;
-    private double totalCost = 0d;
     private double fixedCharge = 50d;
 
     public Receipt(Taxi taxi) {
@@ -15,20 +15,18 @@ public class Receipt {
     }
 
     public double totalCost() {
+        return (fixedCharge + calculateAirConditioningCost(taxi.getTotalKms()) * getPeakTimeTax(taxi.isPeakTime())) * SALES_TAX;
+    }
 
-        // taxi charges
-        int totalKms = taxi.getTotalKms();
-        double peakTimeMultiple = taxi.isPeakTime() ? 1.2 : 1.0;
+    private double getPeakTimeTax(boolean peakTime) {
+        return peakTime ? 1.2 : 1.0;
+    }
+
+    private double calculateAirConditioningCost(int totalKms) {
         if(taxi.isAirConditioned()) {
-            totalCost += Math.min(10, totalKms) * 20 * peakTimeMultiple;
-            totalCost += Math.max(0, totalKms - 10) * 17 * peakTimeMultiple;
-            totalCost += fixedCharge;
+            return (double) Math.min(10, totalKms) * 20  + (double) Math.max(0, totalKms - 10) * 17;
         } else {
-            totalCost += Math.min(10, totalKms) * 15 * peakTimeMultiple;
-            totalCost += Math.max(0, totalKms - 10) * 12 * peakTimeMultiple;
-            totalCost += fixedCharge;
+            return (double) Math.min(10, totalKms) * 15 + (double) Math.max(0, totalKms - 10) * 12;
         }
-
-        return totalCost * (1 + 0.1);
     }
 }
