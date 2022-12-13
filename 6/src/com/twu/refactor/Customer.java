@@ -1,7 +1,6 @@
 package com.twu.refactor;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class Customer {
@@ -22,20 +21,34 @@ public class Customer {
     }
 
     public String statement() {
-        double totalAmount = 0;
-        int frequentRenterPoints = 0;
-        Iterator<Rental> rentals = rentalList.iterator();
+        int index = 0;
         StringBuilder result = new StringBuilder();
+
         printHeader(result);
-        while (rentals.hasNext()) {
-            Rental next = rentals.next();
-            double thisAmount = next.getCharge();
-            frequentRenterPoints += next.getFrePoints();
-            totalAmount += thisAmount;
-            printContent(result, thisAmount, next);
+        while (index < rentalList.size()) {
+            Rental next = rentalList.get(index);
+            printContent(result, rentalList.get(index).getCharge(), next);
+            index++;
         }
-        printFooter(result, totalAmount, frequentRenterPoints);
+        
+        printFooter(result, getTotalAmount(), getTotalFrePoints());
         return result.toString();
+    }
+
+    private int getTotalFrePoints() {
+        int totalFrePoints = 0;
+        for (Rental rental : this.rentalList) {
+            totalFrePoints += rental.getFrePoints();
+        }
+        return totalFrePoints;
+    }
+
+    private double getTotalAmount() {
+        double totalAmount = 0;
+        for (Rental rental : this.rentalList) {
+            totalAmount += rental.getCharge();
+        }
+        return totalAmount;
     }
 
     private void printFooter(StringBuilder result, double totalAmount, int frequentRenterPoints) {
