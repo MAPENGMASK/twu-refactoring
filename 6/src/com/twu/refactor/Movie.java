@@ -1,28 +1,24 @@
 package com.twu.refactor;
 
 public class Movie {
-	public static final int  CHILDRENS = 2;
-	public static final int  REGULAR = 0;
-	public static final int  NEW_RELEASE = 1;
+    private String title;
+    private MovieTypeEnum typeEnum;
 
-	private String title;
-	private int priceCode;
+    public Movie(String title, MovieTypeEnum typeEnum) {
+        this.title = title;
+        this.typeEnum = typeEnum;
+    }
 
-	public Movie(String title, int priceCode) {
-		this.title = title;
-		this.priceCode = priceCode;
-	}
+    public MovieTypeEnum getTypeEnum() {
+        return typeEnum;
+    }
 
-	public int getPriceCode() {
-		return priceCode;
-	}
+    public void setTypeEnum(MovieTypeEnum typeEnum) {
+        this.typeEnum = typeEnum;
+    }
 
-	public void setPriceCode(int arg) {
-    	priceCode = arg;
-	}
-
-	public String getTitle () {
-		return title;
-	}
+    public String getTitle() {
+        return title;
+    }
 }
 
