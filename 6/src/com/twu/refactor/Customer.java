@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import static com.twu.refactor.MovieTypeEnum.NEW_RELEASE;
-
 public class Customer {
 
     private final String name;
@@ -31,46 +29,16 @@ public class Customer {
         printHeader(result);
         while (rentals.hasNext()) {
             Rental next = rentals.next();
-            double thisAmount = calculateOneRentalAmount(next);
-            frequentRenterPoints += getFrequentRenterPoints(next);
+            double thisAmount = next.getCharge();
+            frequentRenterPoints += next.getFrePoints();
             totalAmount += thisAmount;
             printContent(result, thisAmount, next);
         }
-        printFooter(totalAmount, frequentRenterPoints, result);
+        printFooter(result, totalAmount, frequentRenterPoints);
         return result.toString();
     }
 
-    private int getFrequentRenterPoints(Rental each) {
-        int frequentRenterPoint = 0;
-        if ((NEW_RELEASE.equals(each.getMovie().getTypeEnum()))
-                && each.getDaysRented() > 1) {
-            return frequentRenterPoint + 2;
-        } else {
-            return frequentRenterPoint + 1;
-        }
-    }
-
-    private double calculateOneRentalAmount(Rental rental) {
-        double thisAmount = 0;
-        switch (rental.getMovie().getTypeEnum()) {
-            case REGULAR -> {
-                thisAmount += 2;
-                if (rental.getDaysRented() > 2) {
-                    thisAmount += (rental.getDaysRented() - 2) * 1.5;
-                }
-            }
-            case NEW_RELEASE -> thisAmount += rental.getDaysRented() * 3;
-            case CHILDRENS -> {
-                thisAmount += 1.5;
-                if (rental.getDaysRented() > 3) {
-                    thisAmount += (rental.getDaysRented() - 3) * 1.5;
-                }
-            }
-        }
-        return thisAmount;
-    }
-
-    private void printFooter(double totalAmount, int frequentRenterPoints, StringBuilder result) {
+    private void printFooter(StringBuilder result, double totalAmount, int frequentRenterPoints) {
         result.append("Amount owed is ");
         result.append(totalAmount);
         result.append("\n");
